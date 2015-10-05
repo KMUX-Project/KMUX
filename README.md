@@ -10,13 +10,13 @@ sudo pip install blessings
 ## Coding Guidelines überprüfen
 
 ```
-kmux-installer$ ./check_code.sh
+KMUX$ ./check_code.sh
 ```
 
 ## Kompletten Code automatisch formatieren
 
 ```
-kmux-installer$ ./autofix_code.sh
+KMUX$ ./autofix_code.sh
 ```
 
 ## Script ausfühen
