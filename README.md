@@ -1,7 +1,7 @@
 # KMUX
 
 ## Entwicklungsumgebung aufsetzen
-## Set up Development Environment
+## How to set up your development Environment
 
 ```
 sudo apt-get install python3 python3-jinja2 python3-pip python3-pep8
