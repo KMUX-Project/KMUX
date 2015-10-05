@@ -19,7 +19,7 @@ KMUX$ ./check_code.sh
 KMUX$ ./autofix_code.sh
 ```
 
-## Script ausfühen
+## Script ausfüren
 
 ```
 $ cd KMUX
