@@ -19,7 +19,7 @@ kmux-installer$ ./check_code.sh
 kmux-installer$ ./autofix_code.sh
 ```
 
-## Script ausführe
+## Script ausführn
 
 ```
 $ cd KMUX
