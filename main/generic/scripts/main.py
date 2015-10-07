@@ -37,7 +37,8 @@ class Generic(Module):
         self.depend = []
 
         Module.__init__(
-            self, name, dist, ops, default, self.basepackages, self.depend, globconf, self.conffile)
+            self, name, dist, ops, default,
+            self.basepackages, self.depend, globconf, self.conffile)
 
         self.templatevars.update(globconf)
         self.temploader = jinja2.FileSystemLoader(
