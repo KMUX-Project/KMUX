@@ -1,29 +1,25 @@
 # KMUX
 
-## Entwicklungsumgebung aufsetzen
-## How to set up your development Environment
+## Setup your development environment
 
 ```
 sudo apt-get install python3 python3-jinja2 python3-pip python3-pep8
 sudo pip install blessings
 ```
 
-## Coding Guidelines überprüfen
-## Check Coding Guidelines
+## Check your code if it satisfies our coding guidelines
 
 ```
 KMUX$ ./check_code.sh
 ```
 
-## Kompletten Code automatisch formatieren
-## Auto Format the complete code
+## Automated code indentation
 
 ```
 KMUX$ ./autofix_code.sh
 ```
 
-## Script ausführen
-## Run script
+## Script execution
 
 ```
 $ cd KMUX
@@ -32,5 +28,4 @@ KMUX$ cd main/
 KMUX/main$ ./kmux-manage.py
 ```
 
-Anschließend kann man im Verzeichnis ``config.out/`` die automatisch generierten Dateien finden.
-All automatically generated files are to be found in ``config.out/``
+Generated configuration files are stored in ``main/config.out/``.

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-KMUX - an open source small business server.
+KMUX - a free and open source small business server.
 Copyright (C) 2015, KMUX Project
 
 This program is free software; you can redistribute it and/or
@@ -23,17 +23,23 @@ class Module:
 
     number = 0
 
-    """ container class """
-
-    def __init__(self, name, dist, ops, packages, globconf, confpath):
+    def __init__(self, name, dist,
+                 ops, default, packages, depend,
+                 globconf, confpath):
         self.name = name
         self.dist = dist
+        self.ops = ops
+        self.default = default
         self.confpath = confpath
         self.basepackages = packages
-        self.ops = ops
-        Module.number += 1
+        self.depend = depend
+
         self.globconf = globconf
         self.setTemplateVars()
+        Module.number += 1
+
+    def __str__(self):
+        return self.name
 
     def create(self):
         print('create ' + ' ' + self.name + ' ' + self.dist)
@@ -41,12 +47,20 @@ class Module:
     def getNumber(self):
         return Module.number
 
+    def isDefault(self):
+        return self.default
+
     def getContainerName(self):
         return self.name
 
+    def getDependencies(self):
+        return self.depend
+
     def setTemplateVars(self):
-        self.templatevars = {"name": self.name, "nr": Module.number,
+        self.templatevars = {"name": self.name,
+                             "nr": Module.number,
                              "dist": self.dist,
                              "os": self.ops,
-                             "basepackages": self.basepackages}
+                             "basepackages": self.basepackages,
+                             "depend": self.depend}
         self.templatevars.update(self.globconf)

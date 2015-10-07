@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# KMUX - an open source small business server.
+# KMUX - a free and open source small business server.
 # Copyright (C) 2015, KMUX Project
 #
 # This program is free software; you can redistribute it and/or
