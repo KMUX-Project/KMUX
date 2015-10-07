@@ -41,7 +41,4 @@ if (args.list):
     print(t.green(modules))
 elif (args.genini):
     modules = Utils.genConfigIni()
-    print(t.bold("kmux-config-ini.json written to config.out/"))
-
-
-
+    print(t.green("kmux-config-ini.json written to config.out/"))

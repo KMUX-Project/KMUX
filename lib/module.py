@@ -24,7 +24,7 @@ class Module:
     number = 0
 
     def __init__(self, name, dist,
-                 ops, default,packages, depend,
+                 ops, default, packages, depend,
                  globconf, confpath):
         self.name = name
         self.dist = dist
@@ -39,7 +39,7 @@ class Module:
         Module.number += 1
 
     def __str__(self):
-        return self.name;
+        return self.name
 
     def create(self):
         print('create ' + ' ' + self.name + ' ' + self.dist)
@@ -62,5 +62,5 @@ class Module:
                              "dist": self.dist,
                              "os": self.ops,
                              "basepackages": self.basepackages,
-                             "depend" : self.depend}
+                             "depend": self.depend}
         self.templatevars.update(self.globconf)

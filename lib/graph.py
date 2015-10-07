@@ -18,13 +18,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
 
+
 class Edge:
+
     def __init__(self, src, dest):
         self.src = src
         self.dest = dest
 
     def __str__(self):
         return self.src + "->" + self.dest
+
 
 class Graph:
 
@@ -33,7 +36,7 @@ class Graph:
         self.edges = set()
 
     def addEdge(self, src, dest):
-        e = Edge(src,dest)
+        e = Edge(src, dest)
         self.edges.add(e)
 
     def addNode(self, nod):
@@ -45,10 +48,3 @@ class Graph:
             str = str + "\n" + e.__str__()
 
         return str
-
-
-
-
-
-    
-

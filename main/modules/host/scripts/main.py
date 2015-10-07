@@ -21,12 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from main.generic.scripts.main import Generic
 import os
 
+
 class Main(Generic):
 
     def __init__(self, jsonglob):
         modpath = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         modname = os.path.basename(modpath)
         Generic.__init__(self, modname, 'sarge', 'debian', True, jsonglob)
-
-
-

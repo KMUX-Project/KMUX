@@ -17,12 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
-
-'''
-This class contains all utility functions that might be used across
-different classes
-'''
-
 import json
 import os
 import jinja2
@@ -46,7 +40,6 @@ class Utils:
             break
         return modules
 
-
     @staticmethod
     def loadModules():
         '''
@@ -60,7 +53,6 @@ class Utils:
             module = importlib.import_module(modpath)
             my_class = getattr(module, "Main")
             inst = my_class(config)
-
 
     @staticmethod
     def genConfigIni():
@@ -83,8 +75,9 @@ class Utils:
             modenabled = "off"
             if instance.isDefault:
                 modenabled = "on"
-            config['container'].update({ instance.getContainerName() : modenabled })
-
-        os.mkdir("./config.out")
+            config['container'].update(
+                {instance.getContainerName(): modenabled})
+        if not os.path.exists('./config.out'):
+            os.mkdir("./config.out")
         fout = open("./config.out/kmux-config-ini.json", "w+")
         json.dump(config, fout, indent=1)
