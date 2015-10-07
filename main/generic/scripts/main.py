@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-KMUX - an open source small business server.
+KMUX - a free and open source small business server.
 Copyright (C) 2015, KMUX Project
 
 This program is free software; you can redistribute it and/or
@@ -28,14 +28,17 @@ sys.path.insert(0, '../../../lib')
 
 class Generic(Module):
 
-    def __init__(self, name, dist, ops, globconf):
+    def __init__(self, name, dist, ops, default, globconf):
         self.dir = 'main/modules/' + name
         self.conffile = self.dir + '/config.json'
         self.install = self.dir + '/create-generic.sh'
         self.basepackages = 'syslog-ng ssmtp cron-apt ' \
                             'libnss-ldap libpam-ldap ldap-utils'
+        self.depend = []
+
         Module.__init__(
-            self, name, dist, ops, self.basepackages, globconf, self.conffile)
+            self, name, dist, ops, default, self.basepackages, self.depend, globconf, self.conffile)
+
         self.templatevars.update(globconf)
         self.temploader = jinja2.FileSystemLoader(
             searchpath=os.environ['PYTHONPATH'])

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-KMUX - an open source small business server.
+KMUX - a free and open source small business server.
 Copyright (C) 2015, KMUX Project
 
 This program is free software; you can redistribute it and/or
@@ -19,19 +19,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
 
 from main.generic.scripts.main import Generic
-import sys
 import os
-
-sys.path.insert(0, '../../../lib')
-
 
 class Main(Generic):
 
     def __init__(self, jsonglob):
         modpath = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         modname = os.path.basename(modpath)
-        Generic.__init__(self, modname, 'trusty', 'ubuntu', jsonglob)
+        Generic.__init__(self, modname, 'trusty', 'ubuntu',False, jsonglob)
         self.basepackages += " x2go"
+        self.depend.append('host')
 
-    def test(self):
-        print("test")
