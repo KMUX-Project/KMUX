@@ -28,4 +28,4 @@ KMUX$ cd main/
 KMUX/main$ ./kmux-manage.py
 ```
 
-All relevant files are generated and stored in ``main/config.out/``
+Generated configuration files are stored in ``main/config.out/``.
