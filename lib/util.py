@@ -46,7 +46,7 @@ class Utils:
         Search and load avaible modules dynamcially
         :return: dictionary { modulename : instance of loaded module }
         '''
-        modules = Utils.earchModules()
+        modules = Utils.searchModules()
 
         for modname in modules:
             modpath = "modules." + modname + ".scripts.main"
