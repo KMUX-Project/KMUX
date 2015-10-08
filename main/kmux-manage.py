@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''
 KMUX - a free and open source small business server.
-Copyright (C) 2015, KMUX Project
+Copyright (C) 2015, Julian Thomé <julian.thome.de@gmail.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
