@@ -41,11 +41,14 @@ class Utils:
         return modules
 
     @staticmethod
-    def loadModules():
+    def loadModules(config):
         '''
         Search and load avaible modules dynamcially
         :return: dictionary { modulename : instance of loaded module }
         '''
+
+        moddict = {}
+
         modules = Utils.searchModules()
 
         for modname in modules:
@@ -53,6 +56,10 @@ class Utils:
             module = importlib.import_module(modpath)
             my_class = getattr(module, "Main")
             inst = my_class(config)
+            assert(moddict.get(modname) == None)
+            moddict[modname] = inst
+
+        return moddict
 
     @staticmethod
     def genConfigIni():
@@ -81,3 +88,12 @@ class Utils:
             os.mkdir("./config.out")
         fout = open("./config.out/kmux-config-ini.json", "w+")
         json.dump(config, fout, indent=1)
+
+    @staticmethod
+    def readJSONFile(filename):
+        '''
+        Serialize a JSON file in the form of a dictionary
+        :return: the dictionary that represents the JSON file
+        '''
+        f = open(os.environ['PYTHONPATH'] + "/" + filename)
+        return json.load(f)

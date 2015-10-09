@@ -19,18 +19,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
 
 import argparse
-
+import os
 from blessings import Terminal
 from lib.util import Utils
+
 
 
 t = Terminal()
 
 print(t.bold('KMUX Manager'))
-parser = argparse.ArgumentParser(description='Process some integers.')
+parser = argparse.ArgumentParser(description='KMUX Installation Helper.')
 parser.add_argument('--list', help='list all modules', action="store_true")
 parser.add_argument(
-    '--genconfig', help='generate kmux.config', action="store_true")
+    '--genconfig', nargs = 1, type = str, help = 'generate kmux.config.json from kmux-config-ini.json')
 parser.add_argument(
     '--genini', help='generate kmux.config.ini', action="store_true")
 
@@ -42,3 +43,7 @@ if (args.list):
 elif (args.genini):
     modules = Utils.genConfigIni()
     print(t.green("kmux-config-ini.json written to config.out/"))
+elif (args.genconfig):
+    config = Utils.readJSONFile(args.genconfig[0])
+    moddict = Utils.loadModules(config)
+    print(t.green("kmux-config.json written to config.out/"))
