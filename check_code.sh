@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-find ./* -type f -name "*.py" -not -name "__init__.py" -exec pep8 {} \;
+PEP='/opt/local/bin/pep8-3.4'
+
+find ./* -type f -name "*.py" -not -name "__init__.py" -exec ${PEP} {} \;
 
 exit 0

@@ -40,6 +40,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       "netmask": "255.255.255.0",
       "extern-dns-fwd": "8.8.8.8"
     }
-
   }
 }

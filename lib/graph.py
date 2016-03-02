@@ -18,6 +18,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
 
+from collections import defaultdict
+
+import sys
+import traceback
+
 
 class Edge:
 
@@ -34,10 +39,29 @@ class Graph:
     def __init__(self):
         self.nodes = set()
         self.edges = set()
+        self.outgoing = defaultdict(list)
+        self.incoming = defaultdict(list)
+        self.time = 0
+        self.d = defaultdict(list)
+        self.f = defaultdict(list)
+        self.color = defaultdict(list)
+        self.parent = defaultdict(list)
+        self.pred = defaultdict(list)
 
     def addEdge(self, src, dest):
         e = Edge(src, dest)
+        self.nodes.add(src)
+        self.nodes.add(dest)
         self.edges.add(e)
+
+        if self.incoming.get(dest) == None:
+            self.incoming[dest] = []
+
+        if self.outgoing.get(src) == None:
+            self.outgoing[src] = []
+
+        self.incoming[dest].append(src)
+        self.outgoing[src].append(dest)
 
     def addNode(self, nod):
         self.nodes.add(nod)
@@ -48,3 +72,53 @@ class Graph:
             str = str + "\n" + e.__str__()
 
         return str
+
+    def toDot(self):
+        str = "digraph G {\n"
+        for e in self.edges:
+            str += "\t" + e.__str__() + ";\n"
+
+        str += "}"
+
+        return str
+
+    def dfs(self):
+
+        for s in self.nodes:
+            self.color[s] = "white"
+            self.pred[s] = []
+
+        for s in self.nodes:
+            if self.color[s] == "white":
+                print("investigate " + s)
+                self.dfsVisit(s)
+            elif self.color[s] == "gray":
+                print("LOOP")
+                sys.exit(-1)
+
+        print(self.color)
+        # print(self.d)
+        # print(self.f)
+        print(self.pred)
+
+    def dfsVisit(self, s):
+
+        self.time = self.time + 1
+        self.d[s] = self.time
+        self.color[s] = "gray"
+
+        succlist = self.outgoing.get(s)
+
+        if succlist != None:
+            #print(" S " + s + " succlist " + str(succlist))
+            for succ in succlist:
+                #print("COL " + str(self.color))
+                if self.color[succ] == "gray":
+                    sys.exit(-1)
+                elif self.color[succ] == "white":
+                    self.dfsVisit(succ)
+
+                self.pred.get(succ).append(s)
+        self.color[s] = "black"
+        self.time = self.time + 1
+        self.f[s] = self.time

@@ -64,3 +64,6 @@ class Module:
                              "basepackages": self.basepackages,
                              "depend": self.depend}
         self.templatevars.update(self.globconf)
+
+    def __hash__(self):
+        return hash(str(self.name))

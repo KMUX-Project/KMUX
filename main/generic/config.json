@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         "basepackages" : "{{basepackages}}"
       },
 
-      "generate" : {
+    "generate" : {
       "network" : {
         "netip" : "{{config['network']['extern-netip']}}.{{nr}}",
         "netmask" : "{{config['network']['netmask']}}"
