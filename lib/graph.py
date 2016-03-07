@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from collections import defaultdict
 
 import sys
-import traceback
 
 
 class Edge:
@@ -93,13 +92,10 @@ class Graph:
                 print("investigate " + s)
                 self.dfsVisit(s)
             elif self.color[s] == "gray":
-                print("LOOP")
+                print("Error: there is a cyclic dependency between modules")
                 sys.exit(-1)
 
-        print(self.color)
-        # print(self.d)
-        # print(self.f)
-        print(self.pred)
+        return self.pred
 
     def dfsVisit(self, s):
 

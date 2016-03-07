@@ -17,20 +17,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #}
 
-{
-    "{{name}}" :{
-
-      "install" : {
-        "dist" : "{{dist}}",
-        "os" : "{{os}}",
-        "basepackages" : "{{basepackages}}"
-      },
-
-    "generate" : {
-      "network" : {
-        "netip" : "{{config['network']['extern-netip']}}.{{nr}}",
-        "netmask" : "{{config['network']['netmask']}}"
-      }
-    }
-  }
-}
+{% extends "main/generic/config.json" %}

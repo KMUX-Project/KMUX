@@ -18,27 +18,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #}
 
 {
-  "config": {
-    "general": {
-      "arch": "i386",
-      "stage": "/stage",
-      "vserver-path": "/var/lib/lxc/vserver",
-      "handle-deamons": "false"
-    },
-    "locales": {
-      "lang": "de",
-      "locale": "de_DE"
-    },
-    "fs": {
-      "raidlevel": 1,
-      "disk0": "/dev/sda"
-    },
-    "network": {
-      "extern-network-mode": "dhcp",
-      "extern-netip": "192.168.1",
-      "extern-interface": "eth1",
-      "netmask": "255.255.255.0",
-      "extern-dns-fwd": "8.8.8.8"
-    }
-  }
-}
+  "{{name}}" : {
+  "nr": "{{nr}}",
+{% block child %}
+{% endblock %}
+
+
+}}

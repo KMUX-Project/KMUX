@@ -18,40 +18,53 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
 
-from lib import Module
 import sys
-import jinja2
+from lib.util import Util
 import os
+import jinja2
 
 sys.path.insert(0, '../../../lib')
 
 
-class Generic(Module):
+class Generic():
 
-    def __init__(self, name, dist, ops, default, globconf):
+    number = 0
+
+    def __init__(self, name):
+
         self.dir = 'main/modules/' + name
         self.conffile = self.dir + '/config.json'
-        self.install = self.dir + '/create-generic.sh'
-        self.basepackages = 'syslog-ng ssmtp cron-apt ' \
-                            'libnss-ldap libpam-ldap ldap-utils'
-        self.depend = []
+        self.inifile = self.dir + '/ini.json'
+        self.depfile = self.dir + '/dep.json'
+        self.number = ++Generic.number
+        self.dependencies = Util.readJSONFile(self.depfile)
+        self.basicconf = {}
+        self.basicconf['nr'] = self.number
+        self.basicconf['name'] = name
+        self.inidict = {}
 
-        Module.__init__(
-            self, name, dist, ops, default,
-            self.basepackages, self.depend, globconf, self.conffile)
+    def getNumber(self):
+        return self.number
 
-        self.templatevars.update(globconf)
+    def getDir(self):
+        return self.dir
+
+    def genIni(self, globconf):
+
+        # take the parameter from the global configuration file
+        self.basicconf.update(globconf)
+
         self.temploader = jinja2.FileSystemLoader(
-            searchpath=os.environ['PYTHONPATH'])
+                searchpath=os.environ['PYTHONPATH'])
         self.env = jinja2.Environment(loader=self.temploader)
 
-    def renderConfig(self):
-        self.setTemplateVars()
-        template = self.env.get_template(self.conffile)
-        out = template.render(self.templatevars)
-        return out
+        template = self.env.get_template(self.inifile)
+        self.inidict = template.render(self.basicconf)
 
-    def renderInstall(self):
-        template = self.env.get_template(self.install)
-        out = template.render(self.templatevars)
-        return out
+    def getIni(self):
+        return self.inidict
+
+    def getDependencies(self):
+        return self.dependencies
+
+
