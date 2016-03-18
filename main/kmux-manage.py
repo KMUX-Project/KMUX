@@ -95,8 +95,6 @@ elif (args.genini):
     globconf = {}
     completed = set()
 
-    print(len(ord))
-
     while len(ord) > 0:
         for n in ord:
             assert moddep.__contains__(n)
@@ -104,24 +102,17 @@ elif (args.genini):
             moddeps.difference_update(completed)
             if len(moddeps) == 0:
                 moddict[n].genIni(globconf)
-                print(moddict[n].getIni())
-                print("remove " + n)
                 ord.remove(n)
                 completed.add(n)
                 globconf.update(json.loads(moddict[n].getIni()))
                 #globconf.update(moddict[mod].getIni())
 
+    print(json.dumps(globconf,indent=True))
 
 
 
-
-
-    print(moddep)
-
-
-
-    print(t.green("kmux-config-ini.json written to config.out/"))
+    #print(t.green("kmux-config-ini.json written to config.out/"))
 elif (args.genconfig):
-    #config = Utils.readJSONFile(args.genconfig[0])
+    config = Utils.readJSONFile(args.genconfig[0])
     #moddict = loadModules(config)
-    print(t.green("kmux-config.json written to config.out/"))
+    #print(t.green("kmux-config.json written to config.out/"))
