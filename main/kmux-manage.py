@@ -22,7 +22,7 @@ import argparse
 from blessings import Terminal
 from main.generic import Generic
 import os
-from lib.graph import Graph
+from util.graph import Graph
 import json
 
 
@@ -58,7 +58,6 @@ def searchModules():
     return modules
 
 
-
 t = Terminal()
 
 print(t.bold('KMUX Manager'))
@@ -72,9 +71,8 @@ parser.add_argument(
 args = parser.parse_args()
 
 if (args.list):
-    print("1")
-    #modules = Utils.searchModules()
-    # #print(t.green(modules))
+    modules = searchModules()
+    print(t.green(modules))
 elif (args.genini):
     #modules = Utils.genConfigIni()
 
@@ -105,11 +103,9 @@ elif (args.genini):
                 ord.remove(n)
                 completed.add(n)
                 globconf.update(json.loads(moddict[n].getIni()))
-                #globconf.update(moddict[mod].getIni())
+                # globconf.update(moddict[mod].getIni())
 
-    print(json.dumps(globconf,indent=True))
-
-
+    print(json.dumps(globconf, indent=True))
 
     #print(t.green("kmux-config-ini.json written to config.out/"))
 elif (args.genconfig):

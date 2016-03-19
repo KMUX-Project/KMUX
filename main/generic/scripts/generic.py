@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
 
 import sys
-from lib.util import Util
+from util.util import Util
 import os
 import jinja2
 
@@ -51,11 +51,11 @@ class Generic():
 
     def genIni(self, globconf):
 
-        # take the parameter from the global configuration file
+        # take the parameters from the global configuration file
         self.basicconf.update(globconf)
 
         self.temploader = jinja2.FileSystemLoader(
-                searchpath=os.environ['PYTHONPATH'])
+            searchpath=os.environ['PYTHONPATH'])
         self.env = jinja2.Environment(loader=self.temploader)
 
         template = self.env.get_template(self.inifile)
@@ -66,5 +66,3 @@ class Generic():
 
     def getDependencies(self):
         return self.dependencies
-
-

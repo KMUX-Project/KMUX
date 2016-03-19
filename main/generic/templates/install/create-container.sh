@@ -43,32 +43,6 @@ then
   continue
 fi
 
-# Setting debian/ubuntu dist to etch
-KMUXINST_DIST="debian"
-KMUXINST_REPDIST="lenny"
-
-if [ ${KMUXINST_DIST} = "debian" ]
-then
-  KMUXINST_REPSERVER=${KMUXINST_DEBIAN_REPSERVER}
-  KMUXINST_REPSERVER_ARCH=${KMUXINST_DEBIAN_REPSERVER_ARCH}
-  KMUXINST_SECURITY_REPSERVER=${KMUXINST_DEBIAN_SECURITY_REPSERVER}
-else
-  KMUXINST_REPSERVER=${KMUXINST_UBUNTU_REPSERVER}
-  KMUXINST_REPSERVER_ARCH=${KMUXINST_UBUNTU_REPSERVER_ARCH}
-  KMUXINST_SECURITY_REPSERVER=${KMUXINST_UBUNTU_SECURITY_REPSERVER}
-fi
-
-# Build zpub vserver base
-if [ ${KMUX_UPGRADE} = "false" ]
-then
-  if [ ${INTERNAL_INSTALL} = "true" ]
-  then
-    lxc-create -n ${KMUXINST_VSERVER_NAME} -t ${KMUXINST_DIST} -f /etc/lxc/network.conf -- -r ${KMUXINST_REPDIST} --arch=i386 || msg ${MSG_ERR} "Unable to create Container ${KMUXINST_VSERVER_NAME}"
-  else
-    chroot ${KMUXINST_STAGE} lxc-create -n ${KMUXINST_VSERVER_NAME} -t ${KMUXINST_DIST} -f /etc/lxc/network.conf -- -r ${KMUXINST_REPDIST} --arch=i386 || msg ${MSG_ERR} "Unable to create Container ${KMUXINST_VSERVER_NAME}"
-  fi
-fi
-
 # Mount proc
 mount -t proc proc "{{config['vserver-path']}}/proc" || msg ${MSG_ERR} "Unable to mount ${KMUXINST_VSERVER_CHROOT_PATH}/proc"
 # Mount dev
