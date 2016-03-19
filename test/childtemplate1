@@ -1,0 +1,2 @@
+{% extends "parenttemplate" %}
+{% block child %}$logfile =~ ^[Ss][Yy][Ss][Ll][Oo][Gg]${% endblock %}

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+{% if link %}
+{% for sl in links %}
+echo "link {{sl}} ..."
+ln -s "{{ sl }}" "{{ dest }}/$(basename '{{ sl }}')" || {
+    exit 1
+}
+{% endfor %}
+{% else %}
+echo "nothing to mount"
+{% endif %}

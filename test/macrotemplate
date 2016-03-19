@@ -1,0 +1,8 @@
+#!/bin/bash
+{% macro render_logfunction(name) %}
+function f_{{name}}() {
+  echo "{{ caller() }}"
+}
+{% endmacro %}
+
+{% call render_logfunction('kmux') %}Ein Makro generierter Block{% endcall %}

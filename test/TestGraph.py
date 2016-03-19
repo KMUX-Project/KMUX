@@ -1,6 +1,6 @@
 import unittest
 
-from lib.graph import Graph
+from util.graph import Graph
 
 
 class TestGraph(unittest.TestCase):
@@ -16,3 +16,6 @@ class TestGraph(unittest.TestCase):
         #g.addEdge("b", "c")
         print(g.toDot())
         print(g.dfs())
+
+        list1 = ['physics', 'chemistry', 1997, 2000]
+        print("list2[1:]: ", list1[1:])
