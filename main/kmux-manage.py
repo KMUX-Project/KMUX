@@ -1,4 +1,5 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 '''
 KMUX - a free and open source small business server.
 Copyright (C) 2015, Julian Thomé <julian.thome.de@gmail.com>
@@ -20,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import argparse
 from blessings import Terminal
-from main.generic import Generic
+from main.skel import Skel
 import os
 from util.graph import Graph
 import json
@@ -38,7 +39,7 @@ def loadModules():
 
     for modname in modules:
         print("load " + modname)
-        moddict[modname] = Generic(modname)
+        moddict[modname] = Skel(modname)
 
     return moddict
 
@@ -64,15 +65,19 @@ print(t.bold('KMUX Manager'))
 parser = argparse.ArgumentParser(description='KMUX Installation Helper.')
 parser.add_argument('--list', help='list all modules', action="store_true")
 parser.add_argument(
-    '--genconfig', nargs=1, type=str, help='generate kmux.config.json from kmux-config-ini.json')
+    '--genconfig', nargs=1,
+    type=str,
+    help='generate kmux.config.json from kmux-config-ini.json')
 parser.add_argument(
-    '--genini', help='generate kmux.config.ini', action="store_true")
+    '--genini',
+    help='generate kmux.config.ini',
+    action="store_true")
 
 args = parser.parse_args()
 
 if (args.list):
     modules = searchModules()
-    print(t.green(modules))
+    print(t.green(str(modules)))
 elif (args.genini):
     #modules = Utils.genConfigIni()
 
@@ -107,8 +112,8 @@ elif (args.genini):
 
     print(json.dumps(globconf, indent=True))
 
-    #print(t.green("kmux-config-ini.json written to config.out/"))
+    print(t.green("kmux-config-ini.json written to config.out/"))
 elif (args.genconfig):
     config = Utils.readJSONFile(args.genconfig[0])
-    #moddict = loadModules(config)
-    #print(t.green("kmux-config.json written to config.out/"))
+    moddict = loadModules(config)
+    print(t.green("kmux-config.json written to config.out/"))
