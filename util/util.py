@@ -3,6 +3,7 @@ import os
 
 
 class Util:
+
     @staticmethod
     def readJSONFile(filename):
         '''
@@ -15,4 +16,4 @@ class Util:
     @staticmethod
     def writeToSONFile(filename, dict):
         fp = open(os.environ['PYTHONPATH'] + "/" + filename)
-        json.dump(dict,fp, indent=True)
+        json.dump(dict, fp, indent=True)
