@@ -17,4 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #}
 
-{% extends "main/generic/config.json" %}
+
+{% extends "/main/skel/config/ini.json" %}
+{% block child %}
+"dist": "trusty",
+"os": "debian",
+"basepackages": ["syslog-ng", "ssmtp" ,"cron-apt", "libnss-ldap" ,"libpam-ldap" ,"ldap-utils"]
+{% endblock %}

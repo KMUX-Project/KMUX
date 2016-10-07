@@ -17,38 +17,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #}
 
-
-{% extends "/main/generic/ini.json" %}
-{% block child %}
-  "dist": "trusty",
-  "os": "debian",
-  "basepackages": ["syslog-ng", "ssmtp" ,"cron-apt", "libnss-ldap" ,"libpam-ldap" ,"ldap-utils"],
-  "depend": "",
-
-  "config": {
-    "general": {
-      "arch": "i386",
-      "stage": "/stage",
-      "vserver-path": "/var/lib/lxc/vserver",
-      "handle-deamons": "false",
-        "hostname" : "kmuxNG",
-        "kernel" : "3.4.5-030405-kmux-pae"
-    },
-    "locales": {
-      "lang": "de",
-      "locale": "de_DE"
-    },
-    "fs": {
-      "raidlevel": 1,
-      "disk0": "/dev/sda"
-    },
-    "network": {
-      "extern-network-mode": "dhcp",
-      "extern-netip": "192.168.1",
-      "extern-interface": "eth1",
-      "netmask": "255.255.255.0",
-      "extern-dns-fwd": "8.8.8.8"
-    }
-  }
-{% endblock %}
-
+{% extends "main/skel/config/config.json" %}

@@ -1,0 +1,5 @@
+{% extends "/main/skel/templates/inst.kmux" %}
+
+{% block child %}
+{% endblock %}
+
