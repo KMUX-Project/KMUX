@@ -89,7 +89,6 @@ class Graph:
 
         for s in self.nodes:
             if self.color[s] == "white":
-                print("investigate " + s)
                 self.dfsVisit(s)
             elif self.color[s] == "gray":
                 print("Error: there is a cyclic dependency between modules")

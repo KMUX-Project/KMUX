@@ -22,19 +22,19 @@ import sys
 from util.json import Json
 import os
 import jinja2
+import json
+import glob
 
 
 class Root():
-
     number = 10
 
     def __init__(self, name):
-
         self.dir = 'modules/' + name
         self.inifile = self.dir + '/config/ini.json'
         self.depfile = self.dir + '/config/dep.json'
-        self.tempinst = self.dir + '/templates/gen.kmux'
-        self.tempgen = self.dir + '/templates/inst.kmux'
+        self.genfile = self.dir + '/templates/gen.kmux'
+        self.instfile = self.dir + '/templates/inst.kmux'
         self.number = Root.number
         Root.number = Root.number + 1
         self.depfile = self.depfile
@@ -42,6 +42,36 @@ class Root():
         self.basicconf['nr'] = self.number
         self.basicconf['name'] = name
         self.inidict = {}
+
+    def __renderConfig(self, tfile, vars):
+        temploader = jinja2.FileSystemLoader(".")
+        env = jinja2.Environment(loader=temploader)
+        template = env.get_template(tfile)
+        return json.loads(template.render(vars))
+
+    def __renderTemplates(self, tfiles, vars, outpath):
+        if tfiles == None or len(tfiles) == 0:
+            return
+        if not os.path.isdir(outpath):
+            print("Could not find " + outpath)
+            return
+        temploader = jinja2.FileSystemLoader(".")
+        env = jinja2.Environment(loader=temploader)
+        for tfile in tfiles:
+            template = env.get_template(tfile)
+            out = template.render(vars)
+            outdir = os.path.abspath(outpath + "/" + os.path.dirname(tfile))
+            if not os.path.exists(outdir):
+                os.makedirs(outdir)
+            outfile = outdir + "/" + \
+                os.path.splitext(os.path.basename(tfile))[0]
+            print("write to " + outfile)
+            ofile = open(outfile, "w")
+            ofile.write(out)
+            ofile.close()
+
+    def __findTemplates(self):
+        return list(glob.iglob(self.dir + '/templates/**/*.tmpl'))
 
     def getNumber(self):
         return self.number
@@ -52,16 +82,17 @@ class Root():
     def genIni(self, globconf):
         # take the parameters from the global configuration file
         self.basicconf.update(globconf)
-        self.temploader = jinja2.FileSystemLoader(".")
-        self.env = jinja2.Environment(loader=self.temploader)
-        template = self.env.get_template(self.inifile)
-        self.inidict = template.render(self.basicconf)
+        return self.__renderConfig(self.inifile, self.basicconf)
 
-    def getIni(self):
+    def getIniFile(self):
         return self.inidict
+
+    def genTemplates(self, globconf, outpath):
+        tfiles = self.__findTemplates()
+        self.__renderTemplates(tfiles, globconf, outpath)
 
     def getDependencies(self):
         return Json.readJSONFile(self.depfile)
 
-    def getDepfile(self):
+    def getDepFile(self):
         return self.depfile

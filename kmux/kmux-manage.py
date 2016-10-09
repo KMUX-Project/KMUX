@@ -26,6 +26,12 @@ import os
 from util.graph import Graph
 import json
 from util.json import Json
+from enum import Enum
+
+
+class Mode(Enum):
+    GENINI = 1
+    GENKMUX = 2
 
 
 def loadModules():
@@ -51,7 +57,7 @@ def searchModules():
     for root, dirs, files in os.walk('./modules'):
         for dir in dirs:
             name = dir
-            if not name.startswith('_'):
+            if not name.startswith('_') and not name == 'root':
                 modules.append(name)
         break
     return modules
@@ -67,15 +73,34 @@ def getDepGraph(moddict):
             depGraph.addEdge(dep, mod)
     return depGraph
 
+
+def loopOverModules(globconf, mode, outdir=None):
+    moddict = loadModules()
+    moddep = getDepGraph(moddict).dfs()
+    ord = list(moddict.keys())
+    completed = set()
+    while len(ord) > 0:
+        for n in ord:
+            assert moddep.__contains__(n)
+            moddeps = set(moddep[n])
+            moddeps.difference_update(completed)
+            if len(moddeps) == 0:
+                if mode == Mode.GENINI:
+                    globconf.update(moddict[n].genIni(globconf))
+                else:
+                    moddict[n].genTemplates(globconf, outdir)
+                ord.remove(n)
+                completed.add(n)
+
 t = Terminal()
 
-print(t.bold('KMUX Manager'))
+#print(t.bold('KMUX Manager'))
 parser = argparse.ArgumentParser(description='KMUX Installation Helper.')
 parser.add_argument('--list', help='list all modules', action="store_true")
 parser.add_argument('--showdeps', action='store_true',
                     help='show depency structure')
 parser.add_argument(
-    '--genconfig', nargs=1,
+    '--genkmux', nargs=2,
     type=str,
     help='generate kmux.config.json from kmux-config-ini.json')
 parser.add_argument(
@@ -92,27 +117,11 @@ elif (args.showdeps):
     graph = getDepGraph(moddict)
     print(t.blue(graph.toDot()))
 elif (args.genini):
-    moddict = loadModules()
-    moddep = getDepGraph(moddict).dfs()
-    ord = list(moddict.keys())
-
     globconf = {}
-    completed = set()
-
-    while len(ord) > 0:
-        for n in ord:
-            assert moddep.__contains__(n)
-            moddeps = set(moddep[n])
-            moddeps.difference_update(completed)
-            if len(moddeps) == 0:
-                moddict[n].genIni(globconf)
-                ord.remove(n)
-                completed.add(n)
-                globconf.update(json.loads(moddict[n].getIni()))
-
-    print(json.dumps(globconf, indent=True))
-
-    print(t.green("kmux-config-ini.json written to config.out/"))
-elif (args.genconfig):
-    config = Json.readJSONFile(args.genconfig[0])
-    print(config)
+    outdict = {}
+    loopOverModules(globconf, Mode.GENINI)
+    outdict['config'] = globconf
+    print(json.dumps(outdict, indent=True))
+elif (args.genkmux):
+    config = Json.readJSONFile(args.genkmux[0])
+    loopOverModules(config, Mode.GENKMUX, args.genkmux[1])
