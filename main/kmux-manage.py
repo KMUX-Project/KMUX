@@ -25,7 +25,7 @@ from main.skel import Skel
 import os
 from util.graph import Graph
 import json
-
+from util.json import Json
 
 def loadModules():
     '''
@@ -114,6 +114,5 @@ elif (args.genini):
 
     print(t.green("kmux-config-ini.json written to config.out/"))
 elif (args.genconfig):
-    config = Utils.readJSONFile(args.genconfig[0])
-    moddict = loadModules(config)
-    print(t.green("kmux-config.json written to config.out/"))
+    config = Json.readJSONFile(args.genconfig[0])
+    print(config)

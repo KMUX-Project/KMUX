@@ -2,7 +2,7 @@ import json
 import os
 
 
-class Util:
+class Json:
 
     @staticmethod
     def readJSONFile(filename):
@@ -10,7 +10,7 @@ class Util:
         Serialize a JSON file in the form of a dictionary
         :return: the dictionary that represents the JSON file
         '''
-        f = open(os.environ['PYTHONPATH'] + "/" + filename)
+        f = open(filename)
         return json.load(f)
 
     @staticmethod

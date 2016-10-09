@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
 
 import sys
-from util.util import Util
+from util.json import Json
 import os
 import jinja2
 
@@ -39,7 +39,7 @@ class Skel():
         self.tempinst = self.dir + '/templates/gen.kmux'
         self.tempgen = self.dir + '/templates/inst.kmux'
         self.number = ++Skel.number
-        self.dependencies = Util.readJSONFile(self.depfile)
+        self.dependencies = Json.readJSONFile(os.environ['PYTHONPATH'] + "/" + self.depfile)
         self.basicconf = {}
         self.basicconf['nr'] = self.number
         self.basicconf['name'] = name
