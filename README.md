@@ -24,9 +24,7 @@ KMUX$ ./autofix_code.sh
 
 ```
 $ cd KMUX
-KMUX$ export PYTHONPATH="$PYTHONPATH:$PWD"
 KMUX$ cd main/
-KMUX/main$ ./kmux-manage.py
+KMUX/main$ ./kmux-manage.py -h
 ```
 
-Generated configuration files are stored in ``main/config.out/``.
