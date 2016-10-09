@@ -36,7 +36,8 @@ def loadModules():
     moddict = {}
     modules = searchModules()
     for modname in modules:
-        moddict[modname] = Root(modname)
+        if not modname == 'root':
+            moddict[modname] = Root(modname)
 
     return moddict
 
@@ -92,7 +93,7 @@ elif (args.showdeps):
     print(t.blue(graph.toDot()))
 elif (args.genini):
     moddict = loadModules()
-    moddeps = getDepGraph(moddict).dfs()
+    moddep = getDepGraph(moddict).dfs()
     ord = list(moddict.keys())
 
     globconf = {}

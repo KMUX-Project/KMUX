@@ -26,7 +26,7 @@ import jinja2
 
 class Root():
 
-    number = 0
+    number = 10
 
     def __init__(self, name):
 
@@ -35,7 +35,8 @@ class Root():
         self.depfile = self.dir + '/config/dep.json'
         self.tempinst = self.dir + '/templates/gen.kmux'
         self.tempgen = self.dir + '/templates/inst.kmux'
-        self.number = ++Root.number
+        self.number = Root.number
+        Root.number = Root.number + 1
         self.depfile = self.depfile
         self.basicconf = {}
         self.basicconf['nr'] = self.number
@@ -51,7 +52,7 @@ class Root():
     def genIni(self, globconf):
         # take the parameters from the global configuration file
         self.basicconf.update(globconf)
-        self.temploader = jinja2.FileSystemLoader(self.dir)
+        self.temploader = jinja2.FileSystemLoader(".")
         self.env = jinja2.Environment(loader=self.temploader)
         template = self.env.get_template(self.inifile)
         self.inidict = template.render(self.basicconf)

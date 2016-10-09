@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #}
 
 
-{% extends "/main/skel/config/ini.json" %}
+{% extends "modules/root/config/ini.json" %}
 {% block child %}
 "dist": "trusty",
 "os": "debian",
