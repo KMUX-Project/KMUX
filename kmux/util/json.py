@@ -14,6 +14,6 @@ class Json:
         return json.load(f)
 
     @staticmethod
-    def writeToSONFile(filename, dict):
-        fp = open(os.environ['PYTHONPATH'] + "/" + filename)
+    def writeToJSONFile(filename, dict):
+        fp = open(filename)
         json.dump(dict, fp, indent=True)

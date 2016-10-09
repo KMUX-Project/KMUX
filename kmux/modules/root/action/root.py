@@ -23,23 +23,20 @@ from util.json import Json
 import os
 import jinja2
 
-sys.path.insert(0, '../../../lib')
 
-
-class Skel():
+class Root():
 
     number = 0
 
     def __init__(self, name):
 
-        self.dir = 'main/modules/' + name
-        self.conffile = self.dir + '/config/config.json'
+        self.dir = 'modules/' + name
         self.inifile = self.dir + '/config/ini.json'
         self.depfile = self.dir + '/config/dep.json'
         self.tempinst = self.dir + '/templates/gen.kmux'
         self.tempgen = self.dir + '/templates/inst.kmux'
-        self.number = ++Skel.number
-        self.dependencies = Json.readJSONFile(os.environ['PYTHONPATH'] + "/" + self.depfile)
+        self.number = ++Root.number
+        self.depfile = self.depfile
         self.basicconf = {}
         self.basicconf['nr'] = self.number
         self.basicconf['name'] = name
@@ -52,14 +49,10 @@ class Skel():
         return self.dir
 
     def genIni(self, globconf):
-
         # take the parameters from the global configuration file
         self.basicconf.update(globconf)
-
-        self.temploader = jinja2.FileSystemLoader(
-            searchpath=os.environ['PYTHONPATH'])
+        self.temploader = jinja2.FileSystemLoader(self.dir)
         self.env = jinja2.Environment(loader=self.temploader)
-
         template = self.env.get_template(self.inifile)
         self.inidict = template.render(self.basicconf)
 
@@ -67,4 +60,7 @@ class Skel():
         return self.inidict
 
     def getDependencies(self):
-        return self.dependencies
+        return Json.readJSONFile(self.depfile)
+
+    def getDepfile(self):
+        return self.depfile

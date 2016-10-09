@@ -21,25 +21,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import argparse
 from blessings import Terminal
-from main.skel import Skel
+from modules.root import Root
 import os
 from util.graph import Graph
 import json
 from util.json import Json
+
 
 def loadModules():
     '''
     Search and load avaible modules dynamcially
     :return: dictionary { modulename : instance of loaded module }
     '''
-
     moddict = {}
-
     modules = searchModules()
-
     for modname in modules:
-        print("load " + modname)
-        moddict[modname] = Skel(modname)
+        moddict[modname] = Root(modname)
 
     return moddict
 
@@ -59,11 +56,23 @@ def searchModules():
     return modules
 
 
+def getDepGraph(moddict):
+    depGraph = Graph()
+    # build dependency graph
+    for mod in moddict:
+        deps = set(moddict[mod].getDependencies()["dependencies"])
+        assert len(deps) <= 0 or deps.issubset(moddict.keys())
+        for dep in deps:
+            depGraph.addEdge(dep, mod)
+    return depGraph
+
 t = Terminal()
 
 print(t.bold('KMUX Manager'))
 parser = argparse.ArgumentParser(description='KMUX Installation Helper.')
 parser.add_argument('--list', help='list all modules', action="store_true")
+parser.add_argument('--showdeps', action='store_true',
+                    help='show depency structure')
 parser.add_argument(
     '--genconfig', nargs=1,
     type=str,
@@ -72,27 +81,18 @@ parser.add_argument(
     '--genini',
     help='generate kmux.config.ini',
     action="store_true")
-
 args = parser.parse_args()
 
 if (args.list):
     modules = searchModules()
     print(t.green(str(modules)))
-elif (args.genini):
-    #modules = Utils.genConfigIni()
-
-    depGraph = Graph()
+elif (args.showdeps):
     moddict = loadModules()
-
-    # build dependency graph
-    for mod in moddict:
-        deps = set(moddict[mod].getDependencies()["dependencies"])
-        assert len(deps) <= 0 or deps.issubset(moddict.keys())
-        for dep in deps:
-            depGraph.addEdge(dep, mod)
-    # check for cycles -- ensure graph is a DAG
-    moddep = depGraph.dfs()
-
+    graph = getDepGraph(moddict)
+    print(t.blue(graph.toDot()))
+elif (args.genini):
+    moddict = loadModules()
+    moddeps = getDepGraph(moddict).dfs()
     ord = list(moddict.keys())
 
     globconf = {}
@@ -108,7 +108,6 @@ elif (args.genini):
                 ord.remove(n)
                 completed.add(n)
                 globconf.update(json.loads(moddict[n].getIni()))
-                # globconf.update(moddict[mod].getIni())
 
     print(json.dumps(globconf, indent=True))
 
