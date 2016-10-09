@@ -1,0 +1,6 @@
+{% extends "root/templates/gen.kmux" %}
+
+{% block child %}
+{% endblock %}
+
+
